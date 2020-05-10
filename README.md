@@ -3,3 +3,5 @@ These skills are modeled after going through [Alexa crash course](https://develo
 
 ## RemindBirthdays
 . Remember names of friends
+. Features 
+..1. Add a friend
