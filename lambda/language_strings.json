@@ -1,6 +1,7 @@
 {
     "en": {
             "WELCOME_MSG": "Welcome to Friend Book. A fun way to store friend birthdays. What do you want to do?",
+            "WELCOME_MSG_SHORT": "Welcome to Friend Book.",
             "WELCOME_REPROMPT_MSG": "You can say: add my friend Barack Obama.",
             "NAME_ALREADY_PRESENT": "I already have name {} stored.",
             "NAME_ADDED": "I have added {} to your friends",

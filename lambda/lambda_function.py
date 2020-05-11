@@ -46,7 +46,10 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         data = handler_input.attributes_manager.request_attributes["_"]
-        speech = data["WELCOME_MSG"]
+        if(len(handler_input.attributes_manager.persistent_attributes) > 0):
+            speech = data["WELCOME_MSG_SHORT"]
+        else:
+            speech = data["WELCOME_MSG"]    
         reprompt = data["WELCOME_REPROMPT_MSG"]
 
         handler_input.response_builder.speak(speech).ask(reprompt)
@@ -82,6 +85,35 @@ class AddFriendIntentHandler(AbstractRequestHandler):
                 .ask("What else do you want to do?")
                 .response
         )
+        
+class AddFriendBirthdayIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("AddFriendBirthdayIntent")(handler_input)
+        
+    def handle(self, handler_input):
+        slots = handler_input.request_envelope.request.intent.slots
+        friendName = slots["friend"].value
+        day = slots["day"].value
+        month = slots["month"].value
+        year = slots["year"].value
+        
+        friend_dictionary_local = handler_input.attributes_manager.persistent_attributes.copy()
+        if(friend_dictionary_local.get(friendName, -1) != -1):
+            response_message = "I added {} to your friends which was not present.".format(friendName);
+        else:
+            response_message = ""
+        friend_dictionary_local[friendName] = {"day":day, "month":month, "year":year}
+        
+        response_message += " I will remember your friend {} was born on {}{}{}".format(friendName, day, month, year)
+        handler_input.attributes_manager.persistent_attributes = friend_dictionary_local
+        handler_input.attributes_manager.save_persistent_attributes()   
+        
+        return (
+            handler_input.response_builder
+                .speak(response_message)
+                .ask("What else do you want to do?")
+                .response
+        )
   
 class SpeakAllFriendNamesIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
@@ -98,6 +130,28 @@ class SpeakAllFriendNamesIntentHandler(AbstractRequestHandler):
         return (
             handler_input.response_builder
                 .speak(response)
+                .ask("What else do you want to do?")
+                .response
+        )   
+
+class ListAllBirthdaysIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("ListAllBirthdaysIntent")(handler_input)
+        
+    def handle(self, handler_input):
+        friend_dictionary_local = handler_input.attributes_manager.persistent_attributes.copy()
+        
+        response_message = ""
+        birthdays_present = 0
+        for key, value in friend_dictionary_local.items():
+            if("day" in value, "month" in value, "year" in value):
+                response_message += "{} was born on {}{}{}. ".format(key, value["day"], value["month"], value["year"])
+                birthdays_present += 1
+        reponse_message = "Out of {} friends, {} have birthdays stored. ".format(len(friend_dictionary_local), birthdays_present) + response_message
+        
+        return (
+            handler_input.response_builder
+                .speak(reponse_message)
                 .ask("What else do you want to do?")
                 .response
         )   
@@ -251,7 +305,9 @@ sb = CustomSkillBuilder(persistence_adapter=s3_adapter)
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(AddFriendIntentHandler())
+sb.add_request_handler(AddFriendBirthdayIntentHandler())
 sb.add_request_handler(SpeakAllFriendNamesIntentHandler())
+sb.add_request_handler(ListAllBirthdaysIntentHandler())
 sb.add_request_handler(DeleteAllIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())

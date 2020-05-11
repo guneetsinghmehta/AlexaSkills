@@ -38,8 +38,7 @@
           "slots": [],
           "samples": [
             "who all are my friends",
-            "list friends",
-            "list all"
+            "list friends"
           ]
         },
         {
@@ -48,10 +47,128 @@
           "samples": [
             "delete all friends"
           ]
+        },
+        {
+          "name": "AddFriendBirthdayIntent",
+          "slots": [
+            {
+              "name": "friend",
+              "type": "AMAZON.Person"
+            },
+            {
+              "name": "day",
+              "type": "AMAZON.Ordinal"
+            },
+            {
+              "name": "month",
+              "type": "AMAZON.Month"
+            },
+            {
+              "name": "year",
+              "type": "AMAZON.FOUR_DIGIT_NUMBER"
+            }
+          ],
+          "samples": [
+            "My friend {friend} was born on {day} {month} {year}",
+            "{friend} was born on {day} {month} {year}"
+          ]
+        },
+        {
+          "name": "ListAllBirthdaysIntent",
+          "slots": [],
+          "samples": [
+            "list birthdays"
+          ]
         }
       ],
       "types": []
-    }
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "AddFriendBirthdayIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "friend",
+              "type": "AMAZON.Person",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.288765302237.396693325114"
+              }
+            },
+            {
+              "name": "day",
+              "type": "AMAZON.Ordinal",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.288765302237.160029242528"
+              }
+            },
+            {
+              "name": "month",
+              "type": "AMAZON.Month",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.288765302237.1275119713192"
+              }
+            },
+            {
+              "name": "year",
+              "type": "AMAZON.FOUR_DIGIT_NUMBER",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.288765302237.1545079848570"
+              }
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.288765302237.396693325114",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "What was the name again ?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.288765302237.160029242528",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Which day was your friend born on ?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.288765302237.1275119713192",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Which month was your friend born in ?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.288765302237.1545079848570",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Which year was your friend born in ?"
+          }
+        ]
+      }
+    ]
   },
-  "version": "11"
+  "version": "15"
 }
