@@ -2,6 +2,9 @@
     "en": {
             "WELCOME_MSG": "Welcome to Friend Book. A fun way to store friend birthdays. What do you want to do?",
             "WELCOME_REPROMPT_MSG": "You can say: add my friend Barack Obama.",
+            "NAME_ALREADY_PRESENT": "I already have name {} stored.",
+            "NAME_ADDED": "I have added {} to your friends",
+            "NEXT_OPERATION": "What else do you want to do? You can say Add person or exit.",
             "HELP_MSG": "You can tell me your date of birth and I'll take note. You can also just say, 'register my birthday' and I will guide you. Which one would you like to try?",
             "GOODBYE_MSG": "Goodbye!",
             "REFLECTOR_MSG": "You just triggered {}",

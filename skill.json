@@ -1,0 +1,24 @@
+{
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:441782789289:function:ddbbd398-77dc-4bc0-a269-9cc9646ff217:Release_0"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "publishingInformation": {
+      "category": "KNOWLEDGE_AND_TRIVIA",
+      "distributionCountries": [],
+      "isAvailableWorldwide": true,
+      "locales": {
+        "en-US": {
+          "name": "Friend Book"
+        }
+      },
+      "testingInstructions": "Sample Testing Instructions."
+    }
+  }
+}

@@ -62,7 +62,13 @@ class AddFriendIntentHandler(AbstractRequestHandler):
         
         friend_dictionary_local = handler_input.attributes_manager.persistent_attributes.copy()
         if friendToAdd in friend_dictionary_local:
-            return handler_input.response_builder.speak("Name already present in memory").response
+            return (
+                handler_input
+                    .response_builder
+                    .speak("Name already present in memory")
+                    .ask("What else do you want to do?")
+                    .response
+            )
         
         friend_dictionary_local[friendToAdd] = {}
         
@@ -70,8 +76,46 @@ class AddFriendIntentHandler(AbstractRequestHandler):
         attributes_manager.persistent_attributes = friend_dictionary_local
         attributes_manager.save_persistent_attributes()
         
-        return handler_input.response_builder.speak("Added friend with name {}".format(friendToAdd)).response
+        return (
+            handler_input.response_builder
+                .speak("Added friend with name {}".format(friendToAdd))
+                .ask("What else do you want to do?")
+                .response
+        )
+  
+class SpeakAllFriendNamesIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("SpeakAllFriendNamesIntent")(handler_input)
         
+    def handle(self, handler_input):
+        friend_dictionary_local = handler_input.attributes_manager.persistent_attributes.copy()
+        number_of_friends = len(friend_dictionary_local)
+        response = "You have {} friends. There names are ".format(number_of_friends)
+        for key, value in friend_dictionary_local.items():
+            response = response + key + ", "
+        response = response + "."
+        
+        return (
+            handler_input.response_builder
+                .speak(response)
+                .ask("What else do you want to do?")
+                .response
+        )   
+
+class DeleteAllIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("DeleteAllIntent")(handler_input)
+        
+    def handle(self, handler_input):
+        handler_input.attributes_manager.persistent_attributes = {}
+        handler_input.attributes_manager.save_persistent_attributes()
+        
+        return (
+            handler_input.response_builder
+                .speak("Deleted all friends.")
+                .ask("What else do you want to do?")
+                .response
+        )
 
 class HelpIntentHandler(AbstractRequestHandler):
     """Handler for Help Intent."""
@@ -207,6 +251,8 @@ sb = CustomSkillBuilder(persistence_adapter=s3_adapter)
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(AddFriendIntentHandler())
+sb.add_request_handler(SpeakAllFriendNamesIntentHandler())
+sb.add_request_handler(DeleteAllIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())

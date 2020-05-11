@@ -21,16 +21,37 @@
         },
         {
           "name": "AddFriendIntent",
+          "slots": [
+            {
+              "name": "friend",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "add person {friend}",
+            "add my friend {friend}",
+            "add my homie {friend}"
+          ]
+        },
+        {
+          "name": "SpeakAllFriendNamesIntent",
           "slots": [],
           "samples": [
-            "add person",
-            "add my friend",
-            "add my homie"
+            "who all are my friends",
+            "list friends",
+            "list all"
+          ]
+        },
+        {
+          "name": "DeleteAllIntent",
+          "slots": [],
+          "samples": [
+            "delete all friends"
           ]
         }
       ],
       "types": []
     }
   },
-  "version": "8"
+  "version": "11"
 }
