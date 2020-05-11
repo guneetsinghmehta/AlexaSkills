@@ -34,6 +34,7 @@ logger.setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+# All friends are stored as {FriendName : {"propertyName":"propertyValue"}}
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """
@@ -56,7 +57,20 @@ class AddFriendIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("AddFriendIntent")(handler_input)
         
     def handle(self, handler_input):
-        return handler_input.response_builder.speak("In Friend intent handler").response
+        slots = handler_input.request_envelope.request.intent.slots
+        friendToAdd = slots["friend"].value
+        
+        friend_dictionary_local = handler_input.attributes_manager.persistent_attributes.copy()
+        if friendToAdd in friend_dictionary_local:
+            return handler_input.response_builder.speak("Name already present in memory").response
+        
+        friend_dictionary_local[friendToAdd] = {}
+        
+        attributes_manager = handler_input.attributes_manager
+        attributes_manager.persistent_attributes = friend_dictionary_local
+        attributes_manager.save_persistent_attributes()
+        
+        return handler_input.response_builder.speak("Added friend with name {}".format(friendToAdd)).response
         
 
 class HelpIntentHandler(AbstractRequestHandler):
@@ -147,6 +161,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 
     def handle(self, handler_input, exception):
         # type: (HandlerInput, Exception) -> Response
+        logger.error(handler_input, exc_info=True)
         logger.error(exception, exc_info=True)
         data = handler_input.attributes_manager.request_attributes["_"]
         speak_output = data["ERROR_MSG"]
