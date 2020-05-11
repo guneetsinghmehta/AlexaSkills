@@ -1,0 +1,36 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "friend book",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AddFriendIntent",
+          "slots": [],
+          "samples": [
+            "add person",
+            "add my friend",
+            "add my homie"
+          ]
+        }
+      ],
+      "types": []
+    }
+  },
+  "version": "8"
+}
