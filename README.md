@@ -5,7 +5,7 @@ These skills are modeled after going through [Alexa crash course](https://develo
 - Remember names of friends
 - Caution about user data: Alexa details should be read thoroughly for protecting data and making it non queriable for developer.
 - Features 
-  - (Done) Add a friend
+  - (Done) Add a friend (this causes stateful errors during list bdays call)
   - (Done) Add friend's bday
   - (Done) Add friend and bday
   - Remove a friend
