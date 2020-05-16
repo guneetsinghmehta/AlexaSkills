@@ -15,3 +15,6 @@ These skills are modeled after going through [Alexa crash course](https://develo
   - Add common topics/ things about a friend to remind on bday
   - Send reminders 1 week, 2 days and 1 day before bday.
 - Future: Add shopping abilities and ability to store information about friends.
+
+## Bugs:
+- Map related bug in listAllBirthdaysIntent
